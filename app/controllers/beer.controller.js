@@ -3,18 +3,18 @@ const Beer = require('../models/beer.model.js');
 // Create and Save a new beer
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.abv || !req.body.content) {
+    if (!req.body.name || !req.body.style) {
         return res.status(400).send({
-            message: "Beers need abv and content"
+            message: "Beers need a name and style"
         });
     }
 
     // Create a beer
     const beer = new Beer({
-        name: req.body.name || "Reininghaus",
-        abv: req.body.abv,
-        content: req.body.content,
-        style: req.body.style || "Pils"
+        name: req.body.name,
+        abv: req.body.abv || 5.0,
+        content: req.body.content || 500,
+        style: req.body.style
     });
 
     // Save beer in the database
@@ -65,18 +65,18 @@ exports.findOne = (req, res) => {
 // Update a beer identified by the id in the request
 exports.update = (req, res) => {
     // Validate Request
-    if (!req.body.abv || !req.body.content) {
+    if (!req.body.name || !req.body.style) {
         return res.status(400).send({
-            message: "Beers need abv and content"
+            message: "Beers need a name and style"
         });
     }
 
     // Find beer and update it with the request body
     Beer.findByIdAndUpdate(req.params.id, {
-        name: req.body.name || "Reininghaus",
-        abv: req.body.abv,
-        content: req.body.content,
-        style: req.body.style || "Pils"
+        name: req.body.name,
+        abv: req.body.abv || 5.0,
+        content: req.body.content || 500,
+        style: req.body.style
     }, {new: true})
         .then(beer => {
             if (!beer) {
